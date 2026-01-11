@@ -67,6 +67,7 @@ public class Main {
                     break;
 
                 case 4:
+                    findAuthorsAliveIn();
                     break;
 
                 case 5:
@@ -159,4 +160,31 @@ public class Main {
         List<Author> authorsPresent = repository.findAuthors();
         authorsPresent.forEach(System.out::println);
     }
+
+    //======= PROCURA POR AUTORES VIVOS EM DETERMINADO ANO =======
+    private void findAuthorsAliveIn(){
+        System.out.println("Digite o ano de base para busca de autores vivos: ");
+
+        Integer choose;
+
+        try {
+            choose = input.nextInt();
+            input.nextLine();
+
+            List<Author> authorsAlive = repository.findAuthorsAlive(choose);
+
+            if (!authorsAlive.isEmpty()){
+                System.out.println("Autores vivos em "+ choose +":");
+                authorsAlive.forEach(System.out::println);
+            }else{
+                System.out.println("Nenhum autor salvo vivo nesta época.");
+            }
+
+        }catch (InputMismatchException e){
+            System.out.println("Por favor, digite um ano válido.");
+            input.nextLine();
+        }
+
+    }
+
 }
