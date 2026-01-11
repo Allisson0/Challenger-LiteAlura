@@ -12,7 +12,6 @@ public class LiteAluraApplication implements CommandLineRunner {
 		SpringApplication.run(LiteAluraApplication.class, args);
 	}
 
-
     @Override
     public void run(String... args) throws Exception {
         Main main = new Main();

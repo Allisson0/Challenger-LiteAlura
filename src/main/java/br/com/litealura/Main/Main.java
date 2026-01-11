@@ -1,5 +1,7 @@
 package br.com.litealura.Main;
 
+import br.com.litealura.Service.ConsumoAPIGutendex;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -40,6 +42,9 @@ public class Main {
             //Com base na escolha, realiza uma ação.
             switch (choose){
                 case 1:
+                    ConsumoAPIGutendex consumo = new ConsumoAPIGutendex();
+
+                    System.out.println(consumo.consumirAPI("https://gutendex.com/books/?search=Emma"));
                     break;
 
                 case 2:
