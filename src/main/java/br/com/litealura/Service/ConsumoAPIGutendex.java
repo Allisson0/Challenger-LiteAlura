@@ -1,6 +1,6 @@
 package br.com.litealura.Service;
 
-import br.com.litealura.Exception.AcessoAPIException;
+import br.com.litealura.Model.Exception.AcessoAPIException;
 
 import java.io.IOException;
 import java.net.URI;

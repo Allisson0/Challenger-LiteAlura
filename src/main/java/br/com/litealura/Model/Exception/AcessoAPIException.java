@@ -1,5 +1,6 @@
-package br.com.litealura.Exception;
+package br.com.litealura.Model.Exception;
 
+//Classe para retornar erro no acesso da API
 public class AcessoAPIException extends RuntimeException {
     private String message;
     public AcessoAPIException(String erro){

@@ -1,15 +1,18 @@
 package br.com.litealura.Main;
 
-import br.com.litealura.Service.ConsumoAPIGutendex;
+import br.com.litealura.Model.Book;
+import br.com.litealura.Service.GutendexService;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
 
+    //Scanner para conversa com o usuário
     private Scanner input = new Scanner(System.in);
+    private GutendexService gutendex = new GutendexService();
     //Menu padrão
-    private String menu = """
+    private final String menu = """
                 =========== Lite - Alura ==========
                 
                 1 - Buscar livro pelo título
@@ -42,9 +45,7 @@ public class Main {
             //Com base na escolha, realiza uma ação.
             switch (choose){
                 case 1:
-                    ConsumoAPIGutendex consumo = new ConsumoAPIGutendex();
-
-                    System.out.println(consumo.consumirAPI("https://gutendex.com/books/?search=Emma"));
+                    procuraLivroPorNome();
                     break;
 
                 case 2:
@@ -72,5 +73,15 @@ public class Main {
 
         //Finalização do programa.
         System.out.println("Programa finalizado com sucesso!");
+    }
+
+    //======= REALIZA A BUSCA DE UM LIVRO POR NOME =======
+    private void procuraLivroPorNome(){
+        //Pede um livro para encontrar na API
+        System.out.println("Digite um livro para pesquisa: ");
+        String busca = input.nextLine();
+        //Retorna o livro encontrado através do serviço de trabalho gutendex.
+        Book livroEncontrado = gutendex.buscaLivro(busca);
+        System.out.println(livroEncontrado);
     }
 }

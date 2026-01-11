@@ -46,12 +46,11 @@
 			<scope>test</scope>
 		</dependency>
 
-        <!-- Source: https://mvnrepository.com/artifact/tools.jackson.core/jackson-databind -->
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
         <dependency>
-            <groupId>tools.jackson.core</groupId>
+            <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>3.0.3</version>
-            <scope>compile</scope>
+            <version>2.20.1</version>
         </dependency>
 
 	</dependencies>
