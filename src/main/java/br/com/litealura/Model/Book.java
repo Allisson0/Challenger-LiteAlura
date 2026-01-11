@@ -2,23 +2,40 @@ package br.com.litealura.Model;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Entity
+@Table(name="livros")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Book {
 
+    @Id
+    @Column(unique = true)
     private Long id;
 
+    @Column(name = "titulo")
     private String title;
 
+    @ManyToMany (cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "livro_autor",
+            joinColumns = @JoinColumn(name = "livro_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "autor_id", referencedColumnName = "id")
+    )
     private List<Author> authors;
 
+    @Column(name = "linguagens")
     private List<String> languages;
 
+    @Column(name = "numero_downloads")
     @JsonAlias("download_count")
     private Integer qtdDownload;
+
+    public Book(){}
 
     public Long getId() {
         return id;

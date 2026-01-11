@@ -1,8 +1,10 @@
 package br.com.litealura.Service;
 
+import br.com.litealura.Model.Author;
 import br.com.litealura.Model.Book;
 import br.com.litealura.Model.Record.ConsultaGutendex;
 
+import java.util.List;
 import java.util.Optional;
 
 public class GutendexService {
@@ -15,7 +17,7 @@ public class GutendexService {
     private ConverteDados conversor = new ConverteDados();
 
     //======= REALIZA UMA BUSCA POR UM LIVRO =======
-    public Book buscaLivro(String livro){
+    public Optional<Book> buscaLivro(String livro){
         //Pede um livro para realizar a busca
 
         //Concatena o endereço com base nas informações prestadas da busca
@@ -33,10 +35,10 @@ public class GutendexService {
 
         //Se o livro for encontrado, retorna ele na função, caso não, retorna null.
         if (livroEncontrado.isPresent()){
-            return livroEncontrado.get();
+            return livroEncontrado;
         }
 
-        return null;
+        return Optional.empty();
 
     }
 

@@ -1,13 +1,17 @@
 package br.com.litealura.Main;
 
+import br.com.litealura.Model.Author;
 import br.com.litealura.Model.Book;
+import br.com.litealura.Repository.BookRepository;
 import br.com.litealura.Service.GutendexService;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
 
+    //Repositório de acesso do banco de dados
+    private final BookRepository repository;
     //Scanner para conversa com o usuário
     private Scanner input = new Scanner(System.in);
     private GutendexService gutendex = new GutendexService();
@@ -22,9 +26,13 @@ public class Main {
                 5 - Listar livros em um determinado idioma
                 
                 0 - Sair
-                
                 """;
     private int choose = -1;
+
+    //Recupera o acesso do Spring para o repositório do banco de dados
+    public Main(BookRepository repository){
+        this.repository = repository;
+    }
 
     //======= MENU PRINCIPAL =======
     public void menu(){
@@ -40,6 +48,8 @@ public class Main {
                 input.nextLine();
             } catch (InputMismatchException e) {
                 System.out.println("Por favor, digite um número.");
+                //Resolução de bug de looping de pedido de digitação
+                input.nextLine();
             }
 
             //Com base na escolha, realiza uma ação.
@@ -81,7 +91,61 @@ public class Main {
         System.out.println("Digite um livro para pesquisa: ");
         String busca = input.nextLine();
         //Retorna o livro encontrado através do serviço de trabalho gutendex.
-        Book livroEncontrado = gutendex.buscaLivro(busca);
-        System.out.println(livroEncontrado);
+        Optional<Book> livroEncontrado = gutendex.buscaLivro(busca);
+
+        //Se o livro for encontrado, retorna no terminal e salva
+        //no banco de dados
+        if (livroEncontrado.isPresent()){
+
+            //Imprime o livro encontrado
+            System.out.println(livroEncontrado.get());
+
+            List<Book> books = repository.findByIdEquals(livroEncontrado.get().getId());
+            //Verifica se o livro já não está presente no banco de dados
+            if (books.isEmpty()) {
+                //Se não estiver...
+                //Define o autor do livro, e caso já tenha no banco
+                //de dados, salva por meio da referência do mesmo.
+                //Salva livroEncontrado.
+                repository.save(saveAuthor(livroEncontrado.get()));
+            }
+        } else{
+            //Retorna que não foi encontrado
+            System.out.println("Livro não encontrado na biblioteca da API.");
+        }
+    }
+
+    //======= VERIFICA SE O AUTOR JÁ EXISTE NO BANCO DE DADOS =======
+    private Book saveAuthor(Book book){
+        //Recupera a lista de autores do livro
+        List<Author> authors = book.getAuthors();
+
+        //Filtra essa lista de atores, e encontra os presentes no
+        //banco de dados, e salva apenas os presentes.
+        List<Author> authorsInBd = authors.stream()
+                .filter(a -> repository.findAuthorByName(a.getNome()).isPresent())
+                .collect(Collectors.toList());
+
+        //Se houver autores na lista de autores no banco de
+        //dados, ele irá relacionar os presentes para uma lista
+        //com os que não tem no livro.
+        if (!authorsInBd.isEmpty()) {
+            //Pega a lista dos autores não presentes no Banco de
+            //dados
+            List<Author> authorsOutBd = authorsInBd.stream()
+                    .filter(a -> !a.equals(authors))
+                    .collect(Collectors.toList());
+
+            //Adiciona na lista de autores do livro
+            authorsInBd.addAll(authorsOutBd);
+            //Seta como autores no banco de dados
+            book.setAuthors(authorsOutBd);
+        }
+
+        //Retorna o livro
+        return book;
+    }
+
+    private void findAuthor(){
     }
 }

@@ -2,20 +2,40 @@ package br.com.litealura.Model;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Author {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @JsonAlias("birth_date")
     private Integer anoNascimento;
 
     @JsonAlias("death_year")
     private Integer anoMorte;
 
+    @Column(unique = true)
     @JsonAlias("name")
     private String nome;
 
+    @ManyToMany(mappedBy = "authors")
+    private List<Book> books;
+
+    public Author(){}
+
     public String getNome() {
         return nome;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     //======= RETORNO DE OBJETO =======
