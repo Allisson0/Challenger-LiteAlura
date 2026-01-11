@@ -71,6 +71,7 @@ public class Main {
                     break;
 
                 case 5:
+                    findBooksByLanguage();
                     break;
 
                     //Ação de término de comandos
@@ -151,40 +152,68 @@ public class Main {
 
     //======= RETORNAR LISTA DE LIVROS DO BANCO DE DADOS =======
     private void findBooksRegistered(){
+        //Procura todas as instâncias de livro no repositório
         List<Book> booksPresent = repository.findAll();
+        //Retorna esses achados
         booksPresent.forEach(System.out::println);
     }
 
     //======= RETORNAR LISTA DE AUTORES DO BANCO DE DADOS ========
     private void findAuthorsRegistered(){
+        //Procura todas as instâncias de autores no repositório
         List<Author> authorsPresent = repository.findAuthors();
+        //Retorna esses achados
         authorsPresent.forEach(System.out::println);
     }
 
     //======= PROCURA POR AUTORES VIVOS EM DETERMINADO ANO =======
     private void findAuthorsAliveIn(){
         System.out.println("Digite o ano de base para busca de autores vivos: ");
-
         Integer choose;
 
+        //Verifica se o que foi digitado é de fato um número
         try {
             choose = input.nextInt();
             input.nextLine();
 
+            //Procura pelos autores vivos na época buscada
             List<Author> authorsAlive = repository.findAuthorsAlive(choose);
 
+            //SE encontrar:
             if (!authorsAlive.isEmpty()){
                 System.out.println("Autores vivos em "+ choose +":");
                 authorsAlive.forEach(System.out::println);
-            }else{
+            }
+            //SE não encontrar:
+            else{
                 System.out.println("Nenhum autor salvo vivo nesta época.");
             }
 
+        //ERRO de digitação de número inválido
         }catch (InputMismatchException e){
             System.out.println("Por favor, digite um ano válido.");
             input.nextLine();
         }
+    }
 
+    //======= PROCURA LIVROS EM UM DETERMINADO IDIOMA =======
+    private void findBooksByLanguage(){
+        //Pede para o usuário informar um código de linguagem
+        System.out.println("Digite o código da linguagem: (ex.: en, pt...)");
+        var choose = input.nextLine();
+
+        //Procura por livros com este código
+        List<Book> booksFind = repository.findBooksByLanguage(choose);
+
+        //SE encontrar, imprime eles com uma mensagem de livros encontrados
+        if (!booksFind.isEmpty()){
+            System.out.println("Livros encontrados para a língua: " + choose);
+            booksFind.forEach(System.out::println);
+        }
+        //SE não encontrar, imprime que nenhum livro foi encontrado
+        else{
+            System.out.println("Nenhum livro encontrado para a língua: " + choose);
+        }
     }
 
 }

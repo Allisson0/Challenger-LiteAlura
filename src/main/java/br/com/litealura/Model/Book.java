@@ -27,6 +27,8 @@ public class Book {
     )
     private List<Author> authors;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "book_languages", joinColumns = @JoinColumn(name = "book_id"))
     @Column(name = "linguagens")
     private List<String> languages;
 
