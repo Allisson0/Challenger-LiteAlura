@@ -48,7 +48,7 @@ public class Main {
                 input.nextLine();
             } catch (InputMismatchException e) {
                 System.out.println("Por favor, digite um número.");
-                //Resolução de bug de looping de pedido de digitação
+                //Resolução de 'bug' de looping de pedido de digitação
                 input.nextLine();
             }
 
@@ -63,6 +63,7 @@ public class Main {
                     break;
 
                 case 3:
+                    findAuthorsRegistered();
                     break;
 
                 case 4:
@@ -151,5 +152,11 @@ public class Main {
     private void findBooksRegistered(){
         List<Book> booksPresent = repository.findAll();
         booksPresent.forEach(System.out::println);
+    }
+
+    //======= RETORNAR LISTA DE AUTORES DO BANCO DE DADOS ========
+    private void findAuthorsRegistered(){
+        List<Author> authorsPresent = repository.findAuthors();
+        authorsPresent.forEach(System.out::println);
     }
 }
