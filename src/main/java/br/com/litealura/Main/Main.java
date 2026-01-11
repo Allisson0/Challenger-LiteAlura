@@ -55,10 +55,11 @@ public class Main {
             //Com base na escolha, realiza uma ação.
             switch (choose){
                 case 1:
-                    procuraLivroPorNome();
+                    findBookByName();
                     break;
 
                 case 2:
+                    findBooksRegistered();
                     break;
 
                 case 3:
@@ -86,28 +87,28 @@ public class Main {
     }
 
     //======= REALIZA A BUSCA DE UM LIVRO POR NOME =======
-    private void procuraLivroPorNome(){
+    private void findBookByName(){
         //Pede um livro para encontrar na API
         System.out.println("Digite um livro para pesquisa: ");
-        String busca = input.nextLine();
+        String find = input.nextLine();
         //Retorna o livro encontrado através do serviço de trabalho gutendex.
-        Optional<Book> livroEncontrado = gutendex.buscaLivro(busca);
+        Optional<Book> bookFind = gutendex.buscaLivro(find);
 
         //Se o livro for encontrado, retorna no terminal e salva
         //no banco de dados
-        if (livroEncontrado.isPresent()){
+        if (bookFind.isPresent()){
 
             //Imprime o livro encontrado
-            System.out.println(livroEncontrado.get());
+            System.out.println(bookFind.get());
 
-            List<Book> books = repository.findByIdEquals(livroEncontrado.get().getId());
+            List<Book> books = repository.findByIdEquals(bookFind.get().getId());
             //Verifica se o livro já não está presente no banco de dados
             if (books.isEmpty()) {
                 //Se não estiver...
                 //Define o autor do livro, e caso já tenha no banco
                 //de dados, salva por meio da referência do mesmo.
-                //Salva livroEncontrado.
-                repository.save(saveAuthor(livroEncontrado.get()));
+                //Salva bookFind.
+                repository.save(saveAuthor(bookFind.get()));
             }
         } else{
             //Retorna que não foi encontrado
@@ -146,6 +147,9 @@ public class Main {
         return book;
     }
 
-    private void findAuthor(){
+    //======= RETORNAR LISTA DE LIVROS DO BANCO DE DADOS =======
+    private void findBooksRegistered(){
+        List<Book> booksPresent = repository.findAll();
+        booksPresent.forEach(System.out::println);
     }
 }
