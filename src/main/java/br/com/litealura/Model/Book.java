@@ -19,7 +19,7 @@ public class Book {
     @Column(name = "titulo")
     private String title;
 
-    @ManyToMany (cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "livro_autor",
             joinColumns = @JoinColumn(name = "livro_id", referencedColumnName = "id"),
@@ -59,6 +59,7 @@ public class Book {
     }
 
     public void setAuthors(List<Author> authors) {
+        authors.forEach(e -> e.addBooks(this));
         this.authors = authors;
     }
 

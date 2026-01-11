@@ -6,7 +6,6 @@ import br.com.litealura.Repository.BookRepository;
 import br.com.litealura.Service.GutendexService;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Main {
 
@@ -121,32 +120,27 @@ public class Main {
 
     //======= VERIFICA SE O AUTOR JÁ EXISTE NO BANCO DE DADOS =======
     private Book saveAuthor(Book book){
-        //Recupera a lista de autores do livro
-        List<Author> authors = book.getAuthors();
 
-        //Filtra essa lista de atores, e encontra os presentes no
-        //banco de dados, e salva apenas os presentes.
-        List<Author> authorsInBd = authors.stream()
-                .filter(a -> repository.findAuthorByName(a.getNome()).isPresent())
-                .collect(Collectors.toList());
+        List<Author> authorsManaged = new ArrayList<>();
 
-        //Se houver autores na lista de autores no banco de
-        //dados, ele irá relacionar os presentes para uma lista
-        //com os que não tem no livro.
-        if (!authorsInBd.isEmpty()) {
-            //Pega a lista dos autores não presentes no Banco de
-            //dados
-            List<Author> authorsOutBd = authorsInBd.stream()
-                    .filter(a -> !a.equals(authors))
-                    .collect(Collectors.toList());
+        for (Author author : book.getAuthors()) {
+            // Busca o autor no banco pelo nome
+            Optional<Author> existingAuthor = repository.findAuthorByName(author.getNome());
 
-            //Adiciona na lista de autores do livro
-            authorsInBd.addAll(authorsOutBd);
-            //Seta como autores no banco de dados
-            book.setAuthors(authorsOutBd);
+            if (existingAuthor.isPresent()) {
+                // SE já existe o autor no banco de dados, salva a instância que veio
+                // do banco de dados
+                authorsManaged.add(existingAuthor.get());
+            } else{
+                // SE não existe no banco de dados, salva como novo autor
+                authorsManaged.add(author);
+            }
         }
 
-        //Retorna o livro
+        //Atualiza a lista de autores seguindo a nova lista.
+        book.getAuthors().clear();
+        book.getAuthors().addAll(authorsManaged);
+        //Retorna o livro com os ajustes de autores
         return book;
     }
 

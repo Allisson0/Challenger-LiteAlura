@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -25,7 +26,7 @@ public class Author {
     private String nome;
 
     @ManyToMany(mappedBy = "authors")
-    private List<Book> books;
+    private List<Book> books = new ArrayList<>();
 
     public Author(){}
 
@@ -35,6 +36,10 @@ public class Author {
 
     public Long getId() {
         return id;
+    }
+
+    public void addBooks(Book books) {
+        this.books.add(books);
     }
 
     //======= RETORNO DE OBJETO =======
