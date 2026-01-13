@@ -19,7 +19,7 @@ public class Book {
     @Column(name = "titulo")
     private String title;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "livro_autor",
             joinColumns = @JoinColumn(name = "livro_id", referencedColumnName = "id"),
@@ -42,16 +42,8 @@ public class Book {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getTitle() {
         return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public List<Author> getAuthors() {
@@ -62,16 +54,8 @@ public class Book {
         return qtdDownload;
     }
 
-    public void setQtdDownload(Integer qtdDownload) {
-        this.qtdDownload = qtdDownload;
-    }
-
     public List<String> getLanguages() {
         return languages;
-    }
-
-    public void setLanguages(List<String> languages) {
-        this.languages = languages;
     }
 
 

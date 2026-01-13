@@ -18,7 +18,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @Query("SELECT a FROM Book b JOIN b.authors a")
     List<Author> findAuthors();
 
-    @Query("SELECT a FROM Book b JOIN b.authors a WHERE a.anoMorte <= :ano")
+    @Query("SELECT a FROM Book b JOIN b.authors a WHERE a.anoNascimento <= :ano AND (a.anoMorte IS NULL OR a.anoMorte >= :ano)")
     List<Author> findAuthorsAlive(Integer ano);
 
     @Query("SELECT b FROM Book b WHERE :choose MEMBER OF b.languages")

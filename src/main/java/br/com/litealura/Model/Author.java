@@ -2,6 +2,7 @@ package br.com.litealura.Model;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -9,16 +10,20 @@ import java.util.List;
 
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Table(name = "autores")
 public class Author {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonAlias("birth_year")
+    @JsonProperty("birth_year")
+    @Column(name = "ano_nascimento")
     private Integer anoNascimento;
 
-    @JsonAlias("death_year")
+    //Anotação forte para definir o nome do json para conversão
+    @JsonProperty("death_year")
+    @Column(name = "ano_morte")
     private Integer anoMorte;
 
     @Column(unique = true)
