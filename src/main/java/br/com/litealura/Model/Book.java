@@ -28,8 +28,8 @@ public class Book {
     private List<Author> authors;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "book_languages", joinColumns = @JoinColumn(name = "book_id"))
-    @Column(name = "linguagens")
+    @CollectionTable(name = "livro_lingua", joinColumns = @JoinColumn(name = "book_id"))
+    @Column(name = "lingua")
     private List<String> languages;
 
     @Column(name = "numero_downloads")
@@ -56,11 +56,6 @@ public class Book {
 
     public List<Author> getAuthors() {
         return authors;
-    }
-
-    public void setAuthors(List<Author> authors) {
-        authors.forEach(e -> e.addBooks(this));
-        this.authors = authors;
     }
 
     public Integer getQtdDownload() {

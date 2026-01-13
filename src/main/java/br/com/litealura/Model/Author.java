@@ -15,7 +15,7 @@ public class Author {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonAlias("birth_date")
+    @JsonAlias("birth_year")
     private Integer anoNascimento;
 
     @JsonAlias("death_year")
@@ -36,10 +36,6 @@ public class Author {
 
     public Long getId() {
         return id;
-    }
-
-    public void addBooks(Book books) {
-        this.books.add(books);
     }
 
     //======= RETORNO DE OBJETO =======

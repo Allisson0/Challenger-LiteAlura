@@ -19,7 +19,6 @@ public class ConverteDados implements IConverteDados {
         } catch (JsonProcessingException e){
             throw new RuntimeException(e);
         }
-
     }
 
     //======= CONVERTE JSON PARA UMA LISTA DE OBJETOS =======

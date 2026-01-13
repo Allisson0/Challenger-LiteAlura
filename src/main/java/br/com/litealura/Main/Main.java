@@ -121,6 +121,8 @@ public class Main {
     //======= VERIFICA SE O AUTOR JÁ EXISTE NO BANCO DE DADOS =======
     private Book saveAuthor(Book book){
 
+        // Cria uma lista relacionando autores existentes no banco de dados e
+        // autores novos para o banco de dados
         List<Author> authorsManaged = new ArrayList<>();
 
         for (Author author : book.getAuthors()) {
@@ -129,7 +131,7 @@ public class Main {
 
             if (existingAuthor.isPresent()) {
                 // SE já existe o autor no banco de dados, salva a instância que veio
-                // do banco de dados
+                // do banco de dados dentro da lista
                 authorsManaged.add(existingAuthor.get());
             } else{
                 // SE não existe no banco de dados, salva como novo autor
@@ -148,66 +150,96 @@ public class Main {
     private void findBooksRegistered(){
         //Procura todas as instâncias de livro no repositório
         List<Book> booksPresent = repository.findAll();
-        //Retorna esses achados
-        booksPresent.forEach(System.out::println);
+
+        // SE não encontrar nenhum livro, retorna esta mensagem
+        if (booksPresent.isEmpty()){
+            System.out.println("Nenhum livro encontrado no banco de dados.");
+        } else {
+            // SE encontrar, retorna esses achados
+            booksPresent.forEach(System.out::println);
+        }
     }
 
     //======= RETORNAR LISTA DE AUTORES DO BANCO DE DADOS ========
     private void findAuthorsRegistered(){
         //Procura todas as instâncias de autores no repositório
         List<Author> authorsPresent = repository.findAuthors();
-        //Retorna esses achados
-        authorsPresent.forEach(System.out::println);
+
+        // SE não encontrar nenhum autor no banco de dados, retorna uma mensagem
+        if (authorsPresent.isEmpty()) {
+            System.out.println("Nenhum autor encontrado no banco de dados.");
+        } else{
+            //SE encontrar, retorna esses achados
+            authorsPresent.forEach(System.out::println);
+        }
     }
 
     //======= PROCURA POR AUTORES VIVOS EM DETERMINADO ANO =======
     private void findAuthorsAliveIn(){
-        System.out.println("Digite o ano de base para busca de autores vivos: ");
-        Integer choose;
 
-        //Verifica se o que foi digitado é de fato um número
-        try {
-            choose = input.nextInt();
-            input.nextLine();
+        // Verifica se há autores salves no banco de dados
+        if (repository.findAuthors().isEmpty()) {
+            // SE não há autores, retorna uma mensagem
+            System.out.println("Nenhum autor salvo no banco de dados");
+        }
+        // SE há autores, continua o processo.
+        else {
+            System.out.println("Digite o ano de base para busca de autores vivos: ");
+            Integer choose;
 
-            //Procura pelos autores vivos na época buscada
-            List<Author> authorsAlive = repository.findAuthorsAlive(choose);
+            //Verifica se o que foi digitado é de fato um número
+            try {
+                choose = input.nextInt();
+                input.nextLine();
 
-            //SE encontrar:
-            if (!authorsAlive.isEmpty()){
-                System.out.println("Autores vivos em "+ choose +":");
-                authorsAlive.forEach(System.out::println);
+                //Procura pelos autores vivos na época buscada
+                List<Author> authorsAlive = repository.findAuthorsAlive(choose);
+
+                //SE encontrar:
+                if (!authorsAlive.isEmpty()) {
+                    System.out.println("Autores vivos em " + choose + ":");
+                    authorsAlive.forEach(System.out::println);
+                }
+                //SE não encontrar:
+                else {
+                    System.out.println("Nenhum autor salvo vivo nesta época.");
+                }
+
+                //ERRO de digitação de número inválido
+            } catch (InputMismatchException e) {
+                System.out.println("Por favor, digite um ano válido.");
+                input.nextLine();
             }
-            //SE não encontrar:
-            else{
-                System.out.println("Nenhum autor salvo vivo nesta época.");
-            }
-
-        //ERRO de digitação de número inválido
-        }catch (InputMismatchException e){
-            System.out.println("Por favor, digite um ano válido.");
-            input.nextLine();
         }
     }
 
     //======= PROCURA LIVROS EM UM DETERMINADO IDIOMA =======
     private void findBooksByLanguage(){
-        //Pede para o usuário informar um código de linguagem
-        System.out.println("Digite o código da linguagem: (ex.: en, pt...)");
-        var choose = input.nextLine();
 
-        //Procura por livros com este código
-        List<Book> booksFind = repository.findBooksByLanguage(choose);
+        // Verifica se há livros salvos no banco de dados
+        if (repository.findAll().isEmpty()){
+            // SE não houver livros salvos, retorna uma mensagem.
+            System.out.println("Não há nenhum livro salvo no banco de dados" +
+                    "para realizar a pesquisa.");
+        } else {
+            // SE há livros salvos, continua:
 
-        //SE encontrar, imprime eles com uma mensagem de livros encontrados
-        if (!booksFind.isEmpty()){
-            System.out.println("Livros encontrados para a língua: " + choose);
-            booksFind.forEach(System.out::println);
-        }
-        //SE não encontrar, imprime que nenhum livro foi encontrado
-        else{
-            System.out.println("Nenhum livro encontrado para a língua: " + choose);
+            //Pede para o usuário informar um código de linguagem
+            System.out.println("Digite o código da linguagem: (ex.: en, pt...)");
+            var choose = input.nextLine();
+
+            //Procura por livros com este código
+            List<Book> booksFind = repository.findBooksByLanguage(choose);
+
+            //SE encontrar, imprime eles com uma mensagem de livros encontrados
+            if (!booksFind.isEmpty()) {
+                System.out.println("Livros encontrados para a língua: " + choose);
+                booksFind.forEach(System.out::println);
+            }
+            //SE não encontrar, imprime que nenhum livro foi encontrado
+            else {
+                System.out.println("Nenhum livro encontrado para a língua: " + choose);
+            }
         }
     }
-
 }
