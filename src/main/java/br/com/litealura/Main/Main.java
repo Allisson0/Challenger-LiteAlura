@@ -225,12 +225,12 @@ public class Main {
                     "para realizar a pesquisa.");
         } else {
             // SE há livros salvos, continua:
-            int chooseLan = -1;
+            int chooseLan;
             String language = "";
-            boolean exit = false;
+            boolean choosed = false;
 
             //Enquanto saída for false, continua o comando
-            while (!exit) {
+            while (!choosed) {
                 String languageMenu = """
                         Escolha a língua:
                         1 - Inglês
@@ -254,43 +254,44 @@ public class Main {
                     switch (chooseLan) {
                         case 1:
                             language = "en";
-                            exit = true;
+                            choosed = true;
                             break;
 
                         case 2:
                             language = "pt";
-                            exit = true;
+                            choosed = true;
                             break;
 
                         case 3:
                             language = "fr";
-                            exit = true;
+                            choosed = true;
                             break;
 
                         case 4:
                             language = "es";
-                            exit = true;
+                            choosed = true;
                             break;
 
                         case 5:
                             System.out.println("Digite o código da língua: ");
                             language = input.nextLine();
-                            exit = true;
+                            choosed = true;
                             break;
+
                         case 0:
                             language = "none";
                             System.out.println("Voltando ao menu principal");
-                            exit = true;
-                            break;
+                            //Finaliza o método
+                            return;
 
                         default:
                             System.out.println("Escolha uma opção válida.");
                             break;
                     }
 
-                    //Verifica se exit é igual true, se for, significa que há uma escolha
+                    //Verifica se choosed é igual true, se for, significa que há uma escolha
                     //de língua para finalização
-                    if (exit) {
+                    if (choosed) {
                         //Procura por livros com este código
                         List<Book> booksFind = repository.findBooksByLanguage(language);
 
