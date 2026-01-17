@@ -1,4 +1,4 @@
-<div>
+<div id="topo">
   <h1 align="center">
     :blue_book: LiteAlura :blue_book:
     <br>
@@ -18,14 +18,15 @@
 <h2>Sumário :bookmark_tabs:</h2>
 <ul>
   <li><a href="#desc">Descrição do projeto</a></li>
-  <li><a href="funcs">Funcionalidades e aplicação</a></li>
-  <li><a href="docs">Documentação</a></li>
-  <li><a href="acss">Acesso ao projeto</a></li>
-  <li><a href="license">Licença</a></li>
-  <li><a href="conc">Conclusão</a></li>
+  <li><a href="#funcs">Funcionalidades da aplicação</a></li>
+  <li><a href="#docs">Documentação</a></li>
+  <li><a href="#acss">Acesso ao projeto</a></li>
+  <li><a href="#obs">Observações do projeto</a></li>
+  <li><a href="#license">Licença</a></li>
+  <li><a href="#conc">Conclusão</a></li>
 </ul>
 
-<h1 id="funcs">Funcionalidades e aplicação :hammer_and_wrench:</h1>
+<h1 id="funcs">Funcionalidades da aplicação :hammer_and_wrench:</h1>
 <p>
   O projeto segue permite ao usuário realizar 5 principais ações:<br>
   <div align="center">
@@ -120,7 +121,7 @@
 </div>
 
 <h2>Main :house:</h2>
-<p>Pasta que contem a classe main, onde é apresentado o menu e contém os principais métodos de acesso das ações.</p>
+<p>Pasta que contem a classe main, onde é apresentado o menu e contém os principais métodos de acesso das ações. Além de conter ações que realizam a comunicação com as demais classes utilitárias do projeto.</p>
 
 <h2>Model :toolbox:</h2>
 <p>
@@ -150,8 +151,76 @@
 <p>Classe gerenciada pelo Spring, onde roda a aplicação por meio do CommadLineRunner e o método run. Também intancia um objeto gerenciado pelo Spring, sendo ele a interface BookRepository.</p>
 
 <h1 id="acss">Acesso ao projeto :open_file_folder:</h1>
+<p>Antes de iniciar o projeto, é necessário que o usuário tenha instalado na máquina as seguintes aplicações:</p>
+<br>
+<ul>
+  <li>Java IDK 25 LTS</li>
+  <li>PostgreSQL</li>
+  <li>Maven</li>
+</ul>
 
-<h1 id="license">Licença :pushpin:</h1>
-<p>Este projeto foi criado para fins didáticos e para compor o challenger necessário do curso Oracle One + Alura. <br> Criado por Allisson Silva.</p>
+<h2>Variaveis de ambiente :wrench:</h2>
+<p>O projeto utiliza algumas variaveis de ambientes necessárias para funcionamento:</p>
+<div align="center">
+  <img width="756" height="203" alt="variaveis de ambiente" src="https://github.com/user-attachments/assets/b33378bf-0b80-47dd-a8ad-e749762b6e5d" />
+</div>
+<ul>
+  <li>DB_HOST - host do usuário padrão (localhost)</li>
+  <li>DB_NAME_LITEALURA - banco de dados utilizado (lite_alura)</li>
+  <li>DB_USER - usuário de uso (postgres)</li>
+  <li>DB_PASSWORD - senha do banco de dados (definida no download do mesmo)</li>
+</ul>
+<p>Os nomes presentes entre parenteses, são os nomes padrão utilizados. Ou seja, não é necessária a criação desta variavel de ambiente. Entretanto, é necessária a criação do DB_PASSWORD para dar a senha para a JPA acessar o banco de dados.</p>
+<p>
+  Para criar sua variavel de ambiente, pesquise na barra de pesquisa do seu Sistema Operacional por "variavel de ambiente" e logo na janela aberta, vá na opção "Variáveis de ambiente" onde poderão ser criadas, editadas e excluidas. Para consolidar as mudanças, é necessário reiniciar o computador antes de utilizar a aplicação.
+</p>
+
+<h2>Configuração do banco de dados :card_file_box:</h2>
+<p>Se faz necessária, a criação do banco de dados com o mesmo nome do banco de dados utilizado na aplicação (DB_NAME_LITEALURA). Sendo o mesmo, por padrão, "lite_alura". Ou seja, para que a JPA acesse este banco, é necessário criar o mesmo no usuário utilizado.</p>
+<p>Acesso por meio do pgAdmin 4:</p>
+<img width="245" height="162" alt="image" src="https://github.com/user-attachments/assets/30972c4f-6376-40b3-9d81-eaadaabaed62" />
+<p>Desta forma, a aplicação conseguirá criar as tabelas automaticamente no banco de dados e salvar corretamente os dados.</p>
+
+<h2>Clonar repositório :camera:</h2>
+
+<p>1 - Clone o repositório</p>
+
+```bash
+git clone https://github.com/Allisson0/Challenger-LiteAlura.git
+```
+
+<p>2 - Acesse a pasta da aplicação</p>
+
+```bash
+cd liteAlura
+```
+
+<p>3 - Inicie o programa pelo terminal ou pela sua IDE</p>
+
+```bash
+./mvnw spring-boot:run
+```
+
+<h1 id="obs">Observações do projeto :mag:</h1>
+<ul>
+  <li>O projeto não permite salvar livros duplicados;</li>
+  <li>O projeto realiza buscas por livros de nome exato pesquisado ou que contenha semelhanças com o item pesquisado;</li>
+  <li>O projeto salva apenas novos autores no banco de dados;</li>
+  <li>O projeto não deixa inserir caracteres não desejados para números;</li>
+  <li>O projeto verifica a existência do livro, primeiro no banco de dados, antes de realizar consultas.</li>
+</ul>
+
+
+<h1 id="license">Autor :adult:</h1>
+<p>Criado por <strong>Allisson Silva</strong> para fins didáticos como parte do Challenger LiterAlura.</p>
+
+<h2>Licensa:</h2>
+<p>Este projeto é de uso educacional e segue as diretrizes do Projeto Gutenberg para consumo de dados públicos.</p>
 
 <h1 id="conc">Conclusão :chart_with_upwards_trend:</h1>
+<p>
+  O projeto é uma aplicação concisa dos conhecimentos adquiridos durante a formação, e evidência como boas práticas de programação, deixam o código limpo, detalhado e fácil de se entender. Além de praticar o uso de APIs e a consolidação de dados com o uso de banco de dados, JPA e JPQL em sua aplicação Spring. É um projeto ideal para praticar e testar os seus conhecimentos a respeito da linguagem Java, uma linguagem orientada a objetos.
+</p>
+
+
+<a href="#topo"><h3>Retornar ao topo.</h3></a>
