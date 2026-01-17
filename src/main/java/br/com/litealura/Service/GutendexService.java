@@ -30,15 +30,24 @@ public class GutendexService {
         //Pega a primeira instância do livro procurado com base no nome do livro
         Optional<Book> livroEncontrado = response.results().stream()
                 .filter(g -> g.getTitle().equalsIgnoreCase(livro))
-                .limit(1).findFirst();
+                .findFirst();
 
-        //Se o livro for encontrado, retorna ele na função, caso não, retorna null.
+        //SE o livro for encontrado, retorna ele na função, caso não, retorna null.
         if (livroEncontrado.isPresent()){
             return livroEncontrado;
         }
 
+        //SE não achar o título exato, procura por um título semelhante
+        livroEncontrado = response.results().stream()
+                .filter(g -> g.getTitle().toLowerCase().contains(livro.toLowerCase()))
+                .findFirst();
+
+        //SE encontrar, retorna o livro
+        if (livroEncontrado.isPresent()){
+            return livroEncontrado;
+        }
+
+        //SENÃO retorna vazio
         return Optional.empty();
-
     }
-
 }

@@ -13,7 +13,7 @@ public class Main {
     private final BookRepository repository;
     //Scanner para conversa com o usuário
     private Scanner input = new Scanner(System.in);
-    private GutendexService gutendex = new GutendexService();
+    private final GutendexService gutendex = new GutendexService();
     //Menu padrão
     private final String menu = """
                 =========== Lite - Alura ==========
@@ -103,6 +103,7 @@ public class Main {
             //Imprime o livro encontrado
             System.out.println(bookFind.get());
 
+            //Procura por livros com mesmo Id no banco de dados
             List<Book> books = repository.findByIdEquals(bookFind.get().getId());
             //Verifica se o livro já não está presente no banco de dados
             if (books.isEmpty()) {
