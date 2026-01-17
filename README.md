@@ -214,7 +214,7 @@ cd liteAlura
 <h1 id="license">Autor :adult:</h1>
 <p>Criado por <strong>Allisson Silva</strong> para fins didáticos como parte do Challenger LiterAlura.</p>
 
-<h2>Licensa:</h2>
+<h2>Licença:</h2>
 <p>Este projeto é de uso educacional e segue as diretrizes do Projeto Gutenberg para consumo de dados públicos.</p>
 
 <h1 id="conc">Conclusão :chart_with_upwards_trend:</h1>
